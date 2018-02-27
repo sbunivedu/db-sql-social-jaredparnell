@@ -191,3 +191,24 @@ mysql> select * from Friend;
 +------+------+
 40 rows in set (0.00 sec)
 ```
+
+answers:
+
+1. select Distinct name 
+from Highschooler,(select ID AS ID3 from Highschooler where name = 'Gabriel') Card, Friend
+where (ID = ID1 or ID = ID2) && (ID1 = ID3 or ID2 = ID3) && (ID != ID3);
+
+2. select name,grade 
+from Highschooler
+where ID not in (select ID1 from Likes) and ID not in (select ID2 from Likes); 
+
+3. select name, grade 
+from Highschooler 
+where (select count(*) from Likes where ID = ID2)>1;
+
+4. select H1.name, H1.grade, H2.name, H2.grade
+from Highschooler H1, Highschooler H2, Likes 
+where H1.grade-H2.grade = 2 && H1.ID = ID1 && H2.ID = ID2;
+
+8. select AVG(number.T) 
+from (select count(*) AS T, from Highschooler, Friend where ID1 = ID group by ID1) number;
